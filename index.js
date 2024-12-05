@@ -11,6 +11,8 @@ const prisma = new PrismaClient();
 app.use(express.json());
 app.use(cors());
 
+
+
 // POST route to save email
 app.post("/save-email", async (req, res) => {
     try {
@@ -138,6 +140,16 @@ const sendNotification = async (time) => {
     }
 };
 
+// 6 AM IST
+cron.schedule("0 6 * * *", async () => {
+    // console.log("Sending emails at 6 AM IST...");
+    await sendEmail();
+    await sendNotification("6 AM");
+}, {
+    scheduled: true,
+    timezone: "Asia/Kolkata", // Set timezone to IST
+});
+
 cron.schedule("0 10 * * *", async () => {
     // console.log("Sending emails at 10 AM IST...");
     await sendEmail();
@@ -147,11 +159,31 @@ cron.schedule("0 10 * * *", async () => {
     timezone: "Asia/Kolkata", // Set timezone to IST
 });
 
-// Schedule email for 5 PM IST
-cron.schedule("0 17 * * *", async () => {
-    // console.log("Sending emails at 5 PM IST...");
+// 2 PM IST
+cron.schedule("0 14 * * *", async () => {
+    // console.log("Sending emails at 2 PM IST...");
     await sendEmail();
-    await sendNotification("5 PM");
+    await sendNotification("2 PM");
+}, {
+    scheduled: true,
+    timezone: "Asia/Kolkata", // Set timezone to IST
+});
+
+// 6 PM IST
+cron.schedule("0 18 * * *", async () => {
+    // console.log("Sending emails at 6 PM IST...");
+    await sendEmail();
+    await sendNotification("6 PM");
+}, {
+    scheduled: true,
+    timezone: "Asia/Kolkata", // Set timezone to IST
+});
+
+// 10 PM IST
+cron.schedule("0 22 * * *", async () => {
+    // console.log("Sending emails at 10 PM IST...");
+    await sendEmail();
+    await sendNotification("10 PM");
 }, {
     scheduled: true,
     timezone: "Asia/Kolkata", // Set timezone to IST
@@ -159,7 +191,53 @@ cron.schedule("0 17 * * *", async () => {
 
 
 
+// Schedule email for 5 PM IST
+// cron.schedule("*/2 * * * *", async () => {
+//     //  console.log("Sending emails at 5 PM IST...");
+//     await sendEmail();
+//     await sendNotification("5 PM");
+// }, {
+//     scheduled: true,
+//     timezone: "Asia/Kolkata", // Set timezone to IST
+// });
 
+
+// cron.schedule("* * * * *", async () => {
+//     // console.log("Sending emails at 5 PM IST...");
+//     await sendEmail();
+//     await sendNotification("5 PM");
+// }, {
+//     scheduled: true,
+//     timezone: "Asia/Kolkata", // Set timezone to IST
+// });
+
+
+// Define the cron job with error handling
+// cron.schedule("* * * * *", async () => {
+//     try {
+//         console.log("Attempting to send emails...");
+
+//         // Attempt to send emails
+//         await sendEmail();
+
+//         console.log("Attempting to send notification...");
+
+//         // Attempt to send notification
+//         await sendNotification("5 PM");
+
+//         console.log("Emails and notification sent successfully.");
+//     } catch (error) {
+//         // Log the error and send a notification if necessary
+//         console.error("Error occurred during email sending or notification process:", error);
+
+//         // Optionally, you can send an error notification, log the error to a file, or take other actions
+//         // For example, you could send a notification if an error occurs:
+//         await sendNotification("Error occurred while sending emails or notification");
+//     }
+// }, {
+//     scheduled: true,
+//     timezone: "Asia/Kolkata", // Set timezone to IST
+// });
 
 //  sendEmail();
 // sendNotification("5 PM");
